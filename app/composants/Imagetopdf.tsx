@@ -160,7 +160,7 @@ export default function Imagetopdf() {
                         <label htmlFor="nom" className="text-lg font-semibold">
                             Entrez votre nom :
                         </label>
-                        <div className="flex gap-2">
+                        <div className="flex flex-col gap-2">
                             <input
                                 id="nom"
                                 type="text"
