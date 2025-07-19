@@ -1,6 +1,7 @@
 'use client'
 import { useState } from "react";
 import { jsPDF } from "jspdf";
+import Image from "next/image";
 import { trackPDFConversion } from "./GoogleAnalytics";
 
 /**
@@ -172,14 +173,15 @@ export default function Imagetopdf() {
                         {/* Grille d'aperçu des images sélectionnées */}
                         <div className="grid grid-cols-3 gap-4 mb-4">
                             {images.map((img, i) => (
-                                <img
-                                    key={i}
-                                    src={URL.createObjectURL(img)} // Crée une URL temporaire pour l'aperçu
-                                    width={100}
-                                    height={100}
-                                    alt="aperçu"
-                                    className="w-full h-40 object-cover rounded shadow"
-                                />
+                                <div key={i} className="relative w-full h-40 rounded shadow overflow-hidden">
+                                    <Image
+                                        src={URL.createObjectURL(img)} // Crée une URL temporaire pour l'aperçu
+                                        alt={`Aperçu image ${i + 1}`}
+                                        fill
+                                        className="object-cover"
+                                        sizes="(max-width: 768px) 33vw, 200px"
+                                    />
+                                </div>
                             ))}
                         </div>
                         
