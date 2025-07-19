@@ -1,9 +1,9 @@
-import Image from "./composants/Imagetopdf";
+import Imagetopdf from "./composants/Imagetopdf";
 
 export default function Home(){
   return(
     <div>
-      <Image/>
+      <Imagetopdf/>
     </div>
   )
 }
