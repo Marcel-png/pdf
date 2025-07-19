@@ -187,7 +187,7 @@ export default function Imagetopdf() {
                                 type="button"
                                 onClick={validerNom}
                                 disabled={!nomSaisi.trim()}
-                                className="px-4 py-2 bg-blue-600 text-white mt-2 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+                                className="px-4 py-2 bg-blue-600 text-white mt-2 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors dark: text-black"
                             >
                                 Valider
                             </button>
@@ -195,7 +195,7 @@ export default function Imagetopdf() {
                     </div>
                 ) : (
                     // Message de bienvenue personnalisé
-                    <h1 className="text-center font-bold text-2xl mt-4">
+                    <h1 className="text-center font-bold text-2xl mt-4 dark:text-black">
                         Bienvenue <span className="text-blue-500 font-extrabold">{nom}</span>
                     </h1>
                 )}
