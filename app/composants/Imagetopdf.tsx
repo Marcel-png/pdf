@@ -219,16 +219,16 @@ export default function Imagetopdf() {
                         
                         {/* Grille d'aperçu des images sélectionnées */}
                         {images.length > 0 && (
-                            <div className="grid grid-cols-3 gap-4 mb-4">
+                            <div className="grid grid-cols-2 gap-4 mb-4">
                                 {imageUrls.map((url, i) => (
                                     <div key={i} className="relative w-full h-40 rounded shadow overflow-hidden bg-gray-100">
-                                        <Image
+                                        <img
                                             src={url}
                                             alt={`Aperçu image ${i + 1}`}
-                                            fill
-                                            className="object-cover"
-                                            sizes="(max-width: 768px) 33vw, 200px"
-                                            unoptimized // Désactive l'optimisation pour les URLs blob
+                                            className="w-full h-full object-cover"
+                                            onError={(e) => {
+                                                e.currentTarget.style.display = 'none';
+                                            }}
                                         />
                                     </div>
                                 ))}
