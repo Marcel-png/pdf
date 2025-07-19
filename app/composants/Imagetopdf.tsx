@@ -11,6 +11,7 @@ import { trackPDFConversion } from "./GoogleAnalytics";
 export default function Imagetopdf() {
     // États pour gérer les données du formulaire
     const [nom, setNom] = useState<string>(''); // Nom de l'utilisateur
+    const [nomSaisi, setNomSaisi] = useState<string>(''); // Nom temporaire pendant la saisie
     const [images, setImages] = useState<File[]>([]); // Images sélectionnées
     const [isLoading, setIsLoading] = useState<boolean>(false); // État de chargement
 
@@ -22,6 +23,25 @@ export default function Imagetopdf() {
         if (e.target.files) {
             // Convertit FileList en Array pour faciliter la manipulation
             setImages(Array.from(e.target.files));
+        }
+    };
+
+    /**
+     * Valide le nom saisi et passe à l'étape suivante
+     */
+    const validerNom = () => {
+        if (nomSaisi.trim()) {
+            setNom(nomSaisi.trim());
+        }
+    };
+
+    /**
+     * Gestionnaire pour la touche Entrée
+     */
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            validerNom();
         }
     };
 
@@ -134,18 +154,33 @@ export default function Imagetopdf() {
             {/* Formulaire principal */}
             <form className="flex flex-col gap-6 justify-center items-center rounded-lg bg-white p-8 max-w-xl border border-gray-200 shadow-lg shadow-blue-100 z-10">
                 
-                {/* Section de saisie du nom - affichée seulement si aucun nom n'est saisi */}
+                {/* Section de saisie du nom - affichée seulement si aucun nom n'est validé */}
                 {!nom ? (
-                    <>
-                        <input
-                            id="nom"
-                            type="text"
-                            value={nom}
-                            onChange={(e) => setNom(e.target.value)}
-                            placeholder="Votre nom..."
-                            className="p-2 border-2 rounded-lg mb-4 ml-2 focus:outline focus:outline-2 focus:outline-blue-700 focus:outline-offset-4"
-                        />
-                    </>
+                    <div className="flex flex-col items-center gap-4">
+                        <label htmlFor="nom" className="text-lg font-semibold">
+                            Entrez votre nom :
+                        </label>
+                        <div className="flex gap-2">
+                            <input
+                                id="nom"
+                                type="text"
+                                value={nomSaisi}
+                                onChange={(e) => setNomSaisi(e.target.value)}
+                                onKeyPress={handleKeyPress}
+                                placeholder="Votre nom..."
+                                className="p-2 border-2 rounded-lg focus:outline focus:outline-2 focus:outline-blue-700 focus:outline-offset-4"
+                                autoFocus
+                            />
+                            <button
+                                type="button"
+                                onClick={validerNom}
+                                disabled={!nomSaisi.trim()}
+                                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+                            >
+                                Valider
+                            </button>
+                        </div>
+                    </div>
                 ) : (
                     // Message de bienvenue personnalisé
                     <h1 className="text-center font-bold text-2xl mt-4">
@@ -153,7 +188,7 @@ export default function Imagetopdf() {
                     </h1>
                 )}
                 
-                {/* Section de sélection d'images - affichée seulement si un nom est saisi */}
+                {/* Section de sélection d'images - affichée seulement si un nom est validé */}
                 {nom && (
                     <>
                         {/* Label et champ de sélection de fichiers */}
