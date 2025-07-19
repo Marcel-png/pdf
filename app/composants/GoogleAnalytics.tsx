@@ -2,10 +2,19 @@
 
 import Script from 'next/script'
 
-// Déclaration globale pour gtag
+// Déclaration globale pour gtag avec des types plus spécifiques
 declare global {
   interface Window {
-    gtag: (...args: any[]) => void
+    gtag: (
+      command: 'js' | 'config' | 'event',
+      targetId: string,
+      config?: {
+        page_title?: string
+        page_location?: string
+        event_category?: string
+        event_label?: string
+      }
+    ) => void
   }
 }
 
