@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { jsPDF } from "jspdf";
 import Image from "next/image";
 import { trackPDFConversion } from "./GoogleAnalytics";
@@ -13,18 +13,33 @@ export default function Imagetopdf() {
     const [nom, setNom] = useState<string>(''); // Nom de l'utilisateur
     const [nomSaisi, setNomSaisi] = useState<string>(''); // Nom temporaire pendant la saisie
     const [images, setImages] = useState<File[]>([]); // Images sélectionnées
+    const [imageUrls, setImageUrls] = useState<string[]>([]); // URLs des images pour l'aperçu
     const [isLoading, setIsLoading] = useState<boolean>(false); // État de chargement
 
     /**
      * Gestionnaire pour la sélection de fichiers
-     * Convertit la FileList en tableau de fichiers
+     * Convertit la FileList en tableau de fichiers et crée les URLs
      */
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
-            // Convertit FileList en Array pour faciliter la manipulation
-            setImages(Array.from(e.target.files));
+            const files = Array.from(e.target.files);
+            setImages(files);
+            
+            // Crée les URLs pour l'aperçu
+            const urls = files.map(file => URL.createObjectURL(file));
+            setImageUrls(urls);
         }
     };
+
+    /**
+     * Nettoie les URLs blob quand les images changent
+     */
+    useEffect(() => {
+        return () => {
+            // Nettoie les URLs blob pour éviter les fuites mémoire
+            imageUrls.forEach(url => URL.revokeObjectURL(url));
+        };
+    }, [imageUrls]);
 
     /**
      * Valide le nom saisi et passe à l'étape suivante
@@ -203,19 +218,22 @@ export default function Imagetopdf() {
                         />
                         
                         {/* Grille d'aperçu des images sélectionnées */}
-                        <div className="grid grid-cols-3 gap-4 mb-4">
-                            {images.map((img, i) => (
-                                <div key={i} className="relative w-full h-40 rounded shadow overflow-hidden">
-                                    <Image
-                                        src={URL.createObjectURL(img)} // Crée une URL temporaire pour l'aperçu
-                                        alt={`Aperçu image ${i + 1}`}
-                                        fill
-                                        className="object-cover"
-                                        sizes="(max-width: 768px) 33vw, 200px"
-                                    />
-                                </div>
-                            ))}
-                        </div>
+                        {images.length > 0 && (
+                            <div className="grid grid-cols-3 gap-4 mb-4">
+                                {imageUrls.map((url, i) => (
+                                    <div key={i} className="relative w-full h-40 rounded shadow overflow-hidden bg-gray-100">
+                                        <Image
+                                            src={url}
+                                            alt={`Aperçu image ${i + 1}`}
+                                            fill
+                                            className="object-cover"
+                                            sizes="(max-width: 768px) 33vw, 200px"
+                                            unoptimized // Désactive l'optimisation pour les URLs blob
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                         
                         {/* Bouton de génération - affiché seulement si des images sont sélectionnées */}
                         {images.length > 0 && (
