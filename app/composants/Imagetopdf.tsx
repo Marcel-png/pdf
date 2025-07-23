@@ -180,7 +180,7 @@ export default function Imagetopdf() {
                                 onChange={(e) => setNomSaisi(e.target.value)}
                                 onKeyPress={handleKeyPress}
                                 placeholder="Votre nom..."
-                                className="p-2 border-2 rounded-lg focus:outline-none focus:ring-2 focus:outline-blue-700 focus:outline-offset-4 dark:border-black dark:bg-black dark:text-black"
+                                className="p-2 border-2 rounded-lg focus:outline-none focus:ring-2 focus:outline-blue-700 focus:outline-offset-4 dark:border-black dark:bg-black/50 dark:text-white"
                                 autoFocus
                             />
                             <button
