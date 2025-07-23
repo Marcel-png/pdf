@@ -180,7 +180,7 @@ export default function Imagetopdf() {
                                 onChange={(e) => setNomSaisi(e.target.value)}
                                 onKeyPress={handleKeyPress}
                                 placeholder="Votre nom..."
-                                className="p-2 border-2 rounded-lg focus:outline focus:outline-2 focus:outline-blue-700 focus:outline-offset-4 dark:border-black dark:bg-white"
+                                className="p-2 border-2 rounded-lg focus:outline-none focus:ring-2 focus:outline-blue-700 focus:outline-offset-4 dark:border-black dark:bg-black dark:text-black"
                                 autoFocus
                             />
                             <button
@@ -213,7 +213,7 @@ export default function Imagetopdf() {
                             accept="image/*" // Accepte tous les formats d'image
                             multiple // Permet la sélection multiple
                             onChange={handleFileChange}
-                            className="mb-4 block mt-4 border border-2 border-black rounded-lg animate-bounce dark:bg-white"
+                            className="mb-4 block mt-4 border border-2 border-black rounded-lg animate-bounce dark:bg-black dark:text-white"
                             title="Choisissez une ou plusieurs images"
                         />
                         
