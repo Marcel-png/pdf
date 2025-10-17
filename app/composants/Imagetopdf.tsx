@@ -142,7 +142,7 @@ export default function Imagetopdf() {
 
     return (
         <div 
-            className="min-h-screen p-8 bg-gray-100 flex justify-center items-center relative overflow-hidden"
+            className="min-h-screen p-32 bg-gray-100 flex justify-center items-center relative overflow-hidden"
             style={{
                 // Motif de fond avec des lignes diagonales
                 backgroundImage: `repeating-linear-gradient(
